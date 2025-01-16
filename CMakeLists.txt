@@ -39,7 +39,7 @@ if(HAVE_STDDEF_H)
 endif()
 check_type_size(off64_t OFF64_T)
 if(HAVE_OFF64_T)
-   add_compile_definitions(-D_LARGEFILE64_SOURCE=1)
+   add_compile_definitions(_LARGEFILE64_SOURCE=1)
 endif()
 unset(CMAKE_REQUIRED_DEFINITIONS) # clear variable
 
@@ -48,7 +48,7 @@ unset(CMAKE_REQUIRED_DEFINITIONS) # clear variable
 #
 check_function_exists(fseeko HAVE_FSEEKO)
 if(NOT HAVE_FSEEKO)
-    add_compile_definitions(-DNO_FSEEKO)
+    add_compile_definitions(NO_FSEEKO)
 endif()
 
 #
@@ -58,8 +58,8 @@ check_include_file(unistd.h Z_HAVE_UNISTD_H)
 
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
-    add_compile_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-    add_compile_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
+    add_compile_definitions(_CRT_SECURE_NO_DEPRECATE)
+    add_compile_definitions(_CRT_NONSTDC_NO_DEPRECATE)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
@@ -134,7 +134,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
     endif ()
 
 	if(ZLIB_ASMS)
-		add_compile_definitions(-DASMV)
+		add_compile_definitions(ASMV)
 		set_source_files_properties(${ZLIB_ASMS} PROPERTIES LANGUAGE C COMPILE_FLAGS -DNO_UNDERLINE)
 	endif()
 endif()
@@ -155,7 +155,7 @@ if(MSVC)
     endif()
 
 	if(ZLIB_ASMS)
-		add_compile_definitions(-DASMV -DASMINF)
+		add_compile_definitions(ASMV -DASMINF)
 	endif()
 endif()
 

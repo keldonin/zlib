@@ -1,12 +1,9 @@
-cmake_minimum_required(VERSION 2.4.4)
-set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS ON)
+cmake_minimum_required(VERSION 3.0)
+project(zlib VERSION 1.2.11 LANGUAGES C)
 
-project(zlib C)
-
-set(VERSION "1.2.11")
-
-option(ASM686 "Enable building i686 assembly implementation")
-option(AMD64 "Enable building amd64 assembly implementation")
+# Options
+option(ASM686 "Enable building i686 assembly implementation" OFF)
+option(AMD64 "Enable building amd64 assembly implementation" OFF)
 
 set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Installation directory for libraries")
@@ -42,16 +39,16 @@ if(HAVE_STDDEF_H)
 endif()
 check_type_size(off64_t OFF64_T)
 if(HAVE_OFF64_T)
-   add_definitions(-D_LARGEFILE64_SOURCE=1)
+   add_compile_definitions(-D_LARGEFILE64_SOURCE=1)
 endif()
-set(CMAKE_REQUIRED_DEFINITIONS) # clear variable
+unset(CMAKE_REQUIRED_DEFINITIONS) # clear variable
 
 #
 # Check for fseeko
 #
 check_function_exists(fseeko HAVE_FSEEKO)
 if(NOT HAVE_FSEEKO)
-    add_definitions(-DNO_FSEEKO)
+    add_compile_definitions(-DNO_FSEEKO)
 endif()
 
 #
@@ -61,8 +58,8 @@ check_include_file(unistd.h Z_HAVE_UNISTD_H)
 
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
-    add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-    add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
+    add_compile_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+    add_compile_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
@@ -137,7 +134,7 @@ if(CMAKE_COMPILER_IS_GNUCC)
     endif ()
 
 	if(ZLIB_ASMS)
-		add_definitions(-DASMV)
+		add_compile_definitions(-DASMV)
 		set_source_files_properties(${ZLIB_ASMS} PROPERTIES LANGUAGE C COMPILE_FLAGS -DNO_UNDERLINE)
 	endif()
 endif()
@@ -158,7 +155,7 @@ if(MSVC)
     endif()
 
 	if(ZLIB_ASMS)
-		add_definitions(-DASMV -DASMINF)
+		add_compile_definitions(-DASMV -DASMINF)
 	endif()
 endif()
 
